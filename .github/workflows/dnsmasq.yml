@@ -8,7 +8,7 @@
 # Description: Build Docker for V2Ray BYPASS
 #
 
-name: Gateway V2Ray
+name: Gateway Dnsmasq
 
 on:
   workflow_dispatch:
@@ -45,5 +45,5 @@ jobs:
           platforms: linux/amd64
           push: true
           tags: |
-            darlexlin/gateway-v2ray:latest
-            darlexlin/gateway-v2ray:${{ github.event.inputs.tag }}
+            darlexlin/gateway-dnsmasq:latest
+            darlexlin/gateway-dnsmasq:${{ github.event.inputs.tag }}

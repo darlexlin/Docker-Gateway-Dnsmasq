@@ -27,14 +27,8 @@
 		cp /defaults/dnsmasq/dnsmasq.conf /config/dnsmasq/dnsmasq.conf
 	[[ ! -f /config/dnsmasq/dnsmasq.d/dns.conf ]] && \
 		cp /defaults/dnsmasq/dnsmasq.d/dns.conf /config/dnsmasq/dnsmasq.d/dns.conf
-	[[ ! -f /config/dnsmasq/dnsmasq.d/accelerated-domains.china.conf ]] && \
-		cp /defaults/dnsmasq/dnsmasq.d/accelerated-domains.china.conf /config/dnsmasq/dnsmasq.d/accelerated-domains.china.conf
-	[[ ! -f /config/dnsmasq/dnsmasq.d/apple.china.conf ]] && \
-		cp /defaults/dnsmasq/dnsmasq.d/apple.china.conf /config/dnsmasq/dnsmasq.d/apple.china.conf
-	[[ ! -f /config/dnsmasq/dnsmasq.d/google.china.conf ]] && \
-		cp /defaults/dnsmasq/dnsmasq.d/google.china.conf /config/dnsmasq/dnsmasq.d/google.china.conf
-	[[ ! -f /config/dnsmasq/dnsmasq.d/bogus-nxdomain.china.conf ]] && \
-		cp /defaults/dnsmasq/dnsmasq.d/bogus-nxdomain.china.conf /config/dnsmasq/dnsmasq.d/bogus-nxdomain.china.conf
+	[[ ! -f /config/dnsmasq/dnsmasq.d/gfwlist.conf ]] && \
+		cp /defaults/dnsmasq/dnsmasq.d/accelerated-domains.china.conf /config/dnsmasq/dnsmasq.d/gfwlist.conf
 
 # 启动dnsmasq
 	/etc/init.d/dnsmasq start
