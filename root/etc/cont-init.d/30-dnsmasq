@@ -1,10 +1,10 @@
 #!/usr/bin/with-contenv bash
 
 #	停止dnsmasq
-	/etc/init.d/dnsmasq stop
+#	/etc/init.d/dnsmasq stop
 
 #	删除原有gfwlist配置文件
-	rm /config/dnsmasq -R
+	rm /config/dnsmasq/dnsmasq.d/gfwlist.conf
 	echo "---------- gfwlist2dnsmasq.conf removed ----------"
 
 #	创建配置文件夹
@@ -24,15 +24,19 @@
 
 # 复制配置文件
 	[[ ! -f /config/dnsmasq/dnsmasq.conf ]] && \
-		cp /defaults/dnsmasq/dnsmasq.conf /config/dnsmasq/dnsmasq.conf
+		cp /defaults/dnsmasq/dnsmasq.conf /config/dnsmasq/dnsmasq.conf && \
+		rm /etc/dnsmasq.conf && \
+		ln -s /config/dnsmasq/dnsmasq.conf /etc/dnsmasq.conf
 	[[ ! -f /config/dnsmasq/dnsmasq.d/dns.conf ]] && \
-		cp /defaults/dnsmasq/dnsmasq.d/dns.conf /config/dnsmasq/dnsmasq.d/dns.conf
+		cp /defaults/dnsmasq/dnsmasq.d/dns.conf /config/dnsmasq/dnsmasq.d/dns.conf && \
+		ln -s /config/dnsmasq/dns.conf /etc/dnsmasq.d/dns.conf
 	[[ ! -f /config/dnsmasq/dnsmasq.d/gfwlist.conf ]] && \
 		cp /defaults/dnsmasq/dnsmasq.d/gfwlist.conf /config/dnsmasq/dnsmasq.d/gfwlist.conf && \
+		ln -s /config/dnsmasq/gfwlist.conf /etc/dnsmasq.d/gfwlist.conf
 		echo "---------- gfwlist2dnsmasq.conf added ----------"
 
 # 启动dnsmasq
-	/etc/init.d/dnsmasq start
+	/etc/init.d/dnsmasq restart
 
 #	配置权限
 	chown -R abc:abc \

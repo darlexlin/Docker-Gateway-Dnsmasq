@@ -33,5 +33,5 @@ COPY root/ /
 
 WORKDIR /config
 
-EXPOSE 3000
+EXPOSE 3000 53/udp
 VOLUME /config
