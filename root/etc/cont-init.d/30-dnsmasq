@@ -28,7 +28,7 @@
 	[[ ! -f /config/dnsmasq/dnsmasq.d/dns.conf ]] && \
 		cp /defaults/dnsmasq/dnsmasq.d/dns.conf /config/dnsmasq/dnsmasq.d/dns.conf
 	[[ ! -f /config/dnsmasq/dnsmasq.d/gfwlist.conf ]] && \
-		cp /defaults/dnsmasq/dnsmasq.d/accelerated-domains.china.conf /config/dnsmasq/dnsmasq.d/gfwlist.conf
+		cp /defaults/dnsmasq/dnsmasq.d/gfwlist.conf /config/dnsmasq/dnsmasq.d/gfwlist.conf
 
 # 启动dnsmasq
 	/etc/init.d/dnsmasq start
