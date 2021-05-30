@@ -15,6 +15,9 @@ RUN apt update && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
     apt clean
 
+# 自定义dnsmasq配置
+RUN echo 'conf-dir=/config/dnsmasq/dnsmasq.d'>>/etc/dnsmasq.conf
+
 # 下载AdGuard Home
 RUN wget -q -O AdGuardHome.tar.gz "https://github.com/AdguardTeam/AdGuardHome/releases/download/${ADGUARDHOME}/AdGuardHome_linux_amd64.tar.gz" && \
     tar -zxvf AdGuardHome.tar.gz && \

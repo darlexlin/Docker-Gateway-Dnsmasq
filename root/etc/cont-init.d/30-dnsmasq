@@ -1,39 +1,19 @@
 #!/usr/bin/with-contenv bash
 
-#	停止dnsmasq
-#	/etc/init.d/dnsmasq stop
-
 #	删除原有gfwlist配置文件
-	rm /config/dnsmasq/dnsmasq.d/gfwlist.conf
-	echo "---------- gfwlist2dnsmasq.conf removed ----------"
+#	rm /config/dnsmasq/dnsmasq.d/gfwlist.conf
+#	echo "---------- gfwlist2dnsmasq.conf removed ----------"
 
 #	创建配置文件夹
 	mkdir -p \
 		/config/dnsmasq/dnsmasq.d
 
-#	重新下载分流文件
-#	echo "---------- $(date)  ----------"
-#	echo "---------- dnsmasq-chinalist downloading ----------"
-#	echo "							"
-#	wget -P /config/dnsmasq/dnsmasq.d https://raw.githubusercontent.com/felixonmars/dnsmasq-china-list/master/accelerated-domains.china.conf
-#	wget -P /config/dnsmasq/dnsmasq.d https://raw.githubusercontent.com/felixonmars/dnsmasq-china-list/master/apple.china.conf
-#	wget -P /config/dnsmasq/dnsmasq.d https://raw.githubusercontent.com/felixonmars/dnsmasq-china-list/master/google.china.conf
-#	wget -P /config/dnsmasq/dnsmasq.d https://raw.githubusercontent.com/felixonmars/dnsmasq-china-list/master/bogus-nxdomain.china.conf
-#	echo "							"
-#	echo "---------- dnsmasq-chinalist downloaded  ----------"
-
 # 复制配置文件
-	[[ ! -f /config/dnsmasq/dnsmasq.conf ]] && \
-		cp /defaults/dnsmasq/dnsmasq.conf /config/dnsmasq/dnsmasq.conf && \
-		rm /etc/dnsmasq.conf && \
-		ln -s /config/dnsmasq/dnsmasq.conf /etc/dnsmasq.conf
 	[[ ! -f /config/dnsmasq/dnsmasq.d/dns.conf ]] && \
-		cp /defaults/dnsmasq/dnsmasq.d/dns.conf /config/dnsmasq/dnsmasq.d/dns.conf && \
-		ln -s /config/dnsmasq/dns.conf /etc/dnsmasq.d/dns.conf
+		cp /defaults/dnsmasq/dnsmasq.d/dns.conf /config/dnsmasq/dnsmasq.d/dns.conf
 	[[ ! -f /config/dnsmasq/dnsmasq.d/gfwlist.conf ]] && \
-		cp /defaults/dnsmasq/dnsmasq.d/gfwlist.conf /config/dnsmasq/dnsmasq.d/gfwlist.conf && \
-		ln -s /config/dnsmasq/gfwlist.conf /etc/dnsmasq.d/gfwlist.conf
-		echo "---------- gfwlist2dnsmasq.conf added ----------"
+		cp /defaults/dnsmasq/dnsmasq.d/gfwlist.conf /config/dnsmasq/dnsmasq.d/gfwlist.conf
+#		echo "---------- gfwlist2dnsmasq.conf added ----------"
 
 # 启动dnsmasq
 	/etc/init.d/dnsmasq restart
