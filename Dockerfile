@@ -26,3 +26,6 @@ RUN wget -q -O AdGuardHome.tar.gz "https://github.com/AdguardTeam/AdGuardHome/re
 COPY root/ /
 
 WORKDIR /config
+
+EXPOSE 3000
+VOLUME /config
