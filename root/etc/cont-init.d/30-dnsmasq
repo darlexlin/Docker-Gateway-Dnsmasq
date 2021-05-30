@@ -13,13 +13,13 @@
 		cp /defaults/dnsmasq/dnsmasq.d/dns.conf /config/dnsmasq/dnsmasq.d/dns.conf
 	[[ ! -f /config/dnsmasq/dnsmasq.d/gfwlist.conf ]] && \
 		cp /defaults/dnsmasq/dnsmasq.d/gfwlist.conf /config/dnsmasq/dnsmasq.d/gfwlist.conf
-#		echo "---------- gfwlist2dnsmasq.conf added ----------"
+		echo "---------- gfwlist2dnsmasq.conf added ----------"
+
+# 重新启动dnsmasq
+	/etc/init.d/dnsmasq restart
 
 #	配置权限
 	chown -R abc:abc \
 		/config/dnsmasq
 	chmod -R g+w \
 		/config/dnsmasq
-
-# 启动dnsmasq
-	/etc/init.d/dnsmasq restart
