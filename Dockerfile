@@ -16,19 +16,17 @@ RUN apt update && \
     apt clean
 
 # 自定义dnsmasq配置
-RUN echo 'conf-dir=/config/dnsmasq/dnsmasq.d'>>/etc/dnsmasq.conf
+RUN echo 'conf-dir=/config/dnsmasq/dnsmasq.d/,*.conf'>>/etc/dnsmasq.conf
 
 # 下载AdGuard Home
-RUN apt update && \
-    wget -q -O AdGuardHome.tar.gz "https://github.com/AdguardTeam/AdGuardHome/releases/download/${ADGUARDHOME}/AdGuardHome_linux_amd64.tar.gz" && \
+RUN wget -q -O AdGuardHome.tar.gz "https://github.com/AdguardTeam/AdGuardHome/releases/download/${ADGUARDHOME}/AdGuardHome_linux_amd64.tar.gz" && \
     tar -zxvf AdGuardHome.tar.gz && \
     mkdir -p /defaults/AdGuardHome && \
     mv /tmp/AdGuardHome/* /defaults/AdGuardHome && \
     rm -rf /tmp/*
 
 # 下载gfwlist2dnsmasq分流文件
-RUN apt update && \
-    wget -q -O gfwlist.conf "https://cokebar.github.io/gfwlist2dnsmasq/dnsmasq_gfwlist.conf" && \
+RUN wget -q -O gfwlist.conf "https://cokebar.github.io/gfwlist2dnsmasq/dnsmasq_gfwlist.conf" && \
     mkdir -p /defaults/dnsmasq/dnsmasq.d && \
     mv /tmp/gfwlist.conf /defaults/dnsmasq/dnsmasq.d/gfwlist.conf && \
     rm -rf /tmp/*
