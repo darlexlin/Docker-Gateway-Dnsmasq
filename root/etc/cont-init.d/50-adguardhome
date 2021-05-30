@@ -1,0 +1,21 @@
+#!/usr/bin/with-contenv bash
+
+# 创建文件夹
+	mkdir -p \
+	/config/AdGuardHome
+
+# 复制配置文件
+#[[ ! -f /config/AdGuardHome/AdGuardHome.yaml ]] && \
+#	cp /defaults/AdGuardHome/AdGuardHome.yaml /config/AdGuardHome/AdGuardHome.yaml
+	[[ $(find /config/AdGuardHome -type f | wc -l) -eq 0 ]] && \
+		cp -r /defaults/AdGuardHome/* /config/AdGuardHome && \
+		/config/AdGuardHome/AdGuardHome -s install
+
+#	启动AdGuardHome
+	/config/AdGuardHome/AdGuardHome -s start
+
+#	配置权限
+	chown -R abc:abc \
+		/config/AdGuardHome
+	chmod -R g+w \
+		/config/AdGuardHome

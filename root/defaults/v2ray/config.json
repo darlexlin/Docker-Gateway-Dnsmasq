@@ -1,0 +1,71 @@
+{
+  "inbounds": [
+    {
+      "port": 12345,
+      "protocol": "dokodemo-door",
+      "settings": {
+        "network": "tcp,udp",
+        "followRedirect": true	//需要开启此项，才能iptables转发
+      },
+      "sniffing": {
+        "enabled": true,
+        "destOverride": ["http","tls"]
+      },
+      "streamSettings": {
+        "sockopt": {
+          "tproxy": "tproxy", // 透明代理使用 TPROXY 方式
+          "mark":255
+        }
+      }
+    },
+    {
+      "port": 10808,
+      "listen": "0.0.0.0",
+      "protocol": "socks", // 入口协议为 SOCKS 5
+      "sniffing": {
+        "enabled": true,
+        "destOverride": ["http", "tls"]
+      },
+      "settings": {
+        "auth": "noauth"
+      }
+    }
+  ],
+  "outbounds": [
+    {
+      "protocol": "vless", // 代理协议
+      "settings": {
+        "vnext": [
+          {
+            "address": "proxy.gen10.cn",
+            "port": 443,
+            "users": [
+              {
+                "id": "c0c3ac45-0972-4c72-b079-8596157086fc",
+                "encryption": "none",
+                "level": 0
+              }
+            ]
+          }
+        ]
+      },
+      "streamSettings": {
+        "network": "ws",
+        "security": "tls",
+        "tlsSettings": {
+          "allowInsecure": true
+        },
+        "wsSettings": {
+          "connectionReuse": true,
+          "path": "/f538833ae7/"
+        },
+        "sockopt": {
+          "mark": 255  //这里是 SO_MARK，用于 iptables 识别，每个 outbound 都要配置；255可以改成其他数值，但要与下面的 iptables 规则对应；如果有多个 outbound，最好将所有 outbound 的 SO_MARK 都设置成一样的数值
+        }
+      },
+      "mux": {
+        "enabled": true
+      }
+    }
+  ]
+}

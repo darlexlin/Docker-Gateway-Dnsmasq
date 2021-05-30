@@ -1,0 +1,20 @@
+#!/usr/bin/with-contenv bash
+
+# 创建文件夹
+	mkdir -p \
+	/config/iptables
+
+#	复制配置文件
+	[[ ! -f /config/iptables/rules.v4 ]] && \
+		cp /defaults/iptables/rules.v4 /config/iptables/rules.v4
+
+# 重置规则
+	/sbin/ip route add local default dev lo table 100
+	/sbin/ip rule add fwmark 1 table 100
+	/sbin/iptables-restore /config/iptables/rules.v4
+
+# 配置权限
+	chown -R abc:abc \
+		/config/iptables
+	chmod -R g+w \
+		/config/iptables

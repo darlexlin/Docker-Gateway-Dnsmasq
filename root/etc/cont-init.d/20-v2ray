@@ -1,0 +1,15 @@
+#!/usr/bin/with-contenv bash
+
+# 创建文件夹
+	mkdir -p \
+	/config/v2ray
+
+# 复制配置文件
+[[ ! -f /config/v2ray/config.json ]] && \
+	cp /defaults/v2ray/config.json /config/v2ray/config.json
+
+#	配置权限
+chown -R abc:abc \
+	/config/v2ray
+chmod -R g+w \
+	/config/v2ray

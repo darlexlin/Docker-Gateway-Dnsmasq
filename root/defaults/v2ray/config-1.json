@@ -1,0 +1,189 @@
+{
+    "log": {
+        "loglevel": "warning",
+        "error": "/var/log/xray/error.log",
+        "access": "/var/log/xray/access.log"
+    },
+    "inbounds": [
+        {
+            "tag": "all-in",
+            "port": 12345,
+            "protocol": "dokodemo-door",
+            "settings": {
+                "network": "tcp,udp",
+                "followRedirect": true
+            },
+            "sniffing": {
+                "enabled": true,
+                "destOverride": [
+                    "http",
+                    "tls"
+                ]
+            },
+            "streamSettings": {
+                "sockopt": {
+                    "tproxy": "tproxy"
+                }
+            }
+        },
+        {
+            "tag": "SOCKS-IN",
+            "port": 10808,
+            "listen": "0.0.0.0",
+            "protocol": "socks", // 入口协议为 SOCKS 5
+            "sniffing": {
+                "enabled": true,
+                "destOverride": [
+                    "http",
+                     "tls"
+                ]
+            },
+          "settings": {
+              "auth": "noauth"
+          }
+        }
+    ],
+    "outbounds": [
+        {
+            "tag": "direct",
+            "protocol": "freedom",
+            "settings": {
+                "domainStrategy": "UseIPv4"
+            },
+            "streamSettings": {
+                "sockopt": {
+                    "mark": 2
+                }
+            }
+        },
+        {
+            "tag": "proxy",
+            "protocol": "vless",
+            "settings": {
+                "vnext": [
+                    {
+                        "address": "proxy.gen10.cn",
+                        "port": 443,
+                        "users": [
+                            {
+                                "id": "c0c3ac45-0972-4c72-b079-8596157086fc",
+                                "level": 0,
+                                "encryption": "none"
+                            }
+                        ]
+                    }
+                ]
+            },
+            "streamSettings": {
+                "network": "ws",
+                "security": "tls",
+                "tlsSettings": {
+                    "allowInsecure": true
+                },
+                "wsSettings": {
+                    "connectionReuse": true,
+                    "path": "/f538833ae7/"
+                },
+                "sockopt": {
+                    "mark": 2
+                }
+            }
+        },
+        {
+            "tag": "block",
+            "protocol": "blackhole",
+            "settings": {
+                "response": {
+                    "type": "http"
+                }
+            }
+        },
+        {
+            "tag": "dns-out",
+            "protocol": "dns",
+            "settings": {
+                "address": "8.8.8.8"
+            },
+            "proxySettings": {
+                "tag": "proxy"
+            },
+            "streamSettings": {
+                "sockopt": {
+                    "mark": 2
+                }
+            }
+        }
+    ],
+    "dns": {
+        "hosts": {
+            "服务端域名": "服务端 IP"
+        },
+        "servers": [
+            {
+                "address": "119.29.29.29",
+                "port": 53,
+                "domains": [
+                    "geosite:cn"
+                ],
+                "expectIPs": [
+                    "geoip:cn"
+                ]
+            },
+            {
+                "address": "223.5.5.5",
+                "port": 53,
+                "domains": [
+                    "geosite:cn"
+                ],
+                "expectIPs": [
+                    "geoip:cn"
+                ]
+            },
+            "8.8.8.8",
+            "1.1.1.1",
+            "https+local://doh.dns.sb/dns-query"
+        ]
+    },
+    "routing": {
+        "domainStrategy": "IPIfNonMatch",
+        "rules": [
+            {
+                "type": "field",
+                "inboundTag": [
+                    "all-in"
+                ],
+                "port": 53,
+                "outboundTag": "dns-out"
+            },
+            {
+                "type": "field",
+                "ip": [
+                    "8.8.8.8",
+                    "1.1.1.1"
+                ],
+                "outboundTag": "proxy"
+            },
+            {
+                "type": "field",
+                "domain": [
+                    "geosite:category-ads-all"
+                ],
+                "outboundTag": "block"
+            },
+            {
+                "type": "field",
+                "domain": [
+                    "geosite:geolocation-!cn"
+                ],
+                "outboundTag": "proxy"
+            },
+            {
+                "type": "field",
+                "ip": [
+                    "geoip:telegram"
+                ],
+                "outboundTag": "proxy"
+            }
+        ]
+    }
+}

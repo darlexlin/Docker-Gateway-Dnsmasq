@@ -1,0 +1,46 @@
+#!/usr/bin/with-contenv bash
+
+#	停止dnsmasq
+	/etc/init.d/dnsmasq stop
+
+#	删除原有配置文件
+#	rm /config/dnsmasq -R
+#	echo "---------- dnsmasq settings removed ----------"
+
+#	创建配置文件夹
+	mkdir -p \
+		/config/dnsmasq/dnsmasq.d
+
+#	重新下载分流文件
+#	echo "---------- $(date)  ----------"
+#	echo "---------- dnsmasq-chinalist downloading ----------"
+#	echo "							"
+#	wget -P /config/dnsmasq/dnsmasq.d https://raw.githubusercontent.com/felixonmars/dnsmasq-china-list/master/accelerated-domains.china.conf
+#	wget -P /config/dnsmasq/dnsmasq.d https://raw.githubusercontent.com/felixonmars/dnsmasq-china-list/master/apple.china.conf
+#	wget -P /config/dnsmasq/dnsmasq.d https://raw.githubusercontent.com/felixonmars/dnsmasq-china-list/master/google.china.conf
+#	wget -P /config/dnsmasq/dnsmasq.d https://raw.githubusercontent.com/felixonmars/dnsmasq-china-list/master/bogus-nxdomain.china.conf
+#	echo "							"
+#	echo "---------- dnsmasq-chinalist downloaded  ----------"
+
+# 复制配置文件
+	[[ ! -f /config/dnsmasq/dnsmasq.conf ]] && \
+		cp /defaults/dnsmasq/dnsmasq.conf /config/dnsmasq/dnsmasq.conf
+	[[ ! -f /config/dnsmasq/dnsmasq.d/dns.conf ]] && \
+		cp /defaults/dnsmasq/dnsmasq.d/dns.conf /config/dnsmasq/dnsmasq.d/dns.conf
+	[[ ! -f /config/dnsmasq/dnsmasq.d/accelerated-domains.china.conf ]] && \
+		cp /defaults/dnsmasq/dnsmasq.d/accelerated-domains.china.conf /config/dnsmasq/dnsmasq.d/accelerated-domains.china.conf
+	[[ ! -f /config/dnsmasq/dnsmasq.d/apple.china.conf ]] && \
+		cp /defaults/dnsmasq/dnsmasq.d/apple.china.conf /config/dnsmasq/dnsmasq.d/apple.china.conf
+	[[ ! -f /config/dnsmasq/dnsmasq.d/google.china.conf ]] && \
+		cp /defaults/dnsmasq/dnsmasq.d/google.china.conf /config/dnsmasq/dnsmasq.d/google.china.conf
+	[[ ! -f /config/dnsmasq/dnsmasq.d/bogus-nxdomain.china.conf ]] && \
+		cp /defaults/dnsmasq/dnsmasq.d/bogus-nxdomain.china.conf /config/dnsmasq/dnsmasq.d/bogus-nxdomain.china.conf
+
+# 启动dnsmasq
+	/etc/init.d/dnsmasq start
+
+#	配置权限
+	chown -R abc:abc \
+		/config/dnsmasq
+	chmod -R g+w \
+		/config/dnsmasq
