@@ -3,9 +3,9 @@
 #	停止dnsmasq
 	/etc/init.d/dnsmasq stop
 
-#	删除原有配置文件
-#	rm /config/dnsmasq -R
-#	echo "---------- dnsmasq settings removed ----------"
+#	删除原有gfwlist配置文件
+	rm /config/dnsmasq -R
+	echo "---------- gfwlist2dnsmasq.conf removed ----------"
 
 #	创建配置文件夹
 	mkdir -p \
@@ -28,7 +28,8 @@
 	[[ ! -f /config/dnsmasq/dnsmasq.d/dns.conf ]] && \
 		cp /defaults/dnsmasq/dnsmasq.d/dns.conf /config/dnsmasq/dnsmasq.d/dns.conf
 	[[ ! -f /config/dnsmasq/dnsmasq.d/gfwlist.conf ]] && \
-		cp /defaults/dnsmasq/dnsmasq.d/gfwlist.conf /config/dnsmasq/dnsmasq.d/gfwlist.conf
+		cp /defaults/dnsmasq/dnsmasq.d/gfwlist.conf /config/dnsmasq/dnsmasq.d/gfwlist.conf && \
+		echo "---------- gfwlist2dnsmasq.conf added ----------"
 
 # 启动dnsmasq
 	/etc/init.d/dnsmasq start
